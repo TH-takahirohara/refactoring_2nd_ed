@@ -55,3 +55,9 @@
 - パラメータの値に対応して明示的な関数を作成する。
     - メインとなる関数に明確な切り替え用の条件文がある場合は、「条件記述の分解（第10章）」を適用して明示的な関数に分解する。それ以外の場合は、ラッピング関数を作成する。
 - パラメータにリテラル値を指定している呼び出し元を、対応する明示的な関数呼び出しに置き換える。
+
+ラッピング関数の例
+```
+function rushDeliveryDate(anOrder) {return deliveryDate(anOrder, true);}
+function regularDeliveryDate(anOrder) {return deliveryDate(anOrder, false);}
+```
