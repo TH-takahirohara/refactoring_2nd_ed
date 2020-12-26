@@ -194,3 +194,46 @@ class Employee {...}
 - 犠牲となるクラスへの参照を調整して、存続するクラスへの参照に変更する。
 - 空になったクラスを削除する。
 - テストする。
+
+## 委譲によるサブクラスの置き換え
+
+```
+class Order {
+  get daysToShip() {
+    return this._warehouse.daysToShip;
+  }
+}
+
+class PriorityOrder extends Order {
+  get daysToShip() {
+    return this._priorityPlan.daysToShip;
+  }
+}
+```
+↓
+```
+class Order {
+  get daysToShip() {
+    return (this._priorityDelegate)
+      ? this._priorityDelegate.daysToShip
+      : this._warehouse.daysToShip;
+  }
+}
+
+class PriorityOrderDelegate {
+  get daysToShip() {
+    return this._priorityPlan.daysToShip
+  }
+}
+```
+
+### 動機
+- カテゴリによって振る舞いの異なるオブジェクトを表現する自然な仕組みは継承だが、継承には欠点がある。
+    - 最もわかりやすいのは、一つのカテゴリに対してしか使えないこと。
+    - 加えて、継承がクラス間にきわめて密接な関係を導入することも、親クラスに施す変更が簡単に子クラスを壊してしまうため問題である。
+- 委譲なら、この両方の問題に対処できる。サブクラス化で問題が起きたら、「委譲によるサブクラスの置き換え」で解決することはよくある。
+- 著者は、継承は有意義なのでまず試してみて、上手くいかなくなったら「委譲によるサブクラスの置き換え」で委譲に乗り換えるようにしている。
+
+### 手順
+
+
